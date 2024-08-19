@@ -46,6 +46,10 @@ std::vector<double> BinaryCrossEntropy::backward(std::vector<double> y_true, std
     return grad;
 };
 
+// Unusable, for overwriting purposes only
+double CrossEntropyWithSoftmax::forward(std::vector<double> y_true, std::vector<double> y_pred) {
+    return 0;
+};
 
 double CrossEntropyWithSoftmax::forward(std::vector<std::vector<int>> y_true, std::vector<std::vector<double>> y_pred){
 
@@ -85,4 +89,14 @@ std::vector<double> CrossEntropyWithSoftmax::backward(std::vector<int> y_true, s
     for (int i = 0; i < y_true.size(); i++){
         grad.push_back(softmax_values[i] - 1);
     }
+};
+
+// Unusable, for overwriting purposes only
+std::vector<double> CrossEntropyWithSoftmax::backward(std::vector<double> y_true, std::vector<double> y_pred){
+
+    std::vector<double> grad;
+    for (int i = 0; i < y_true.size(); i++){
+        grad.push_back(y_pred[i] - y_true[i]);
+    }
+    return grad;
 };

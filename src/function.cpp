@@ -112,3 +112,18 @@ std::vector<int> pickKRandomInRangeN(int k, int n) {
     
     return result;
 }
+
+
+std::vector<std::vector<double>> slice2D(const std::vector<std::vector<double>>& x, int start ,int batch_size) {
+    std::vector<std::vector<double>> result;
+    
+    for (const auto& row : x) {
+        result.push_back(std::vector<double>(row.begin() + start, row.begin() + std::min<int>(start + batch_size, row.size())));
+    }
+    
+    return result;
+}
+
+std::vector<double> slice1D(const std::vector<double>& x, int start ,int batch_size){
+    return std::vector<double>(x.begin() + start, x.begin() + std::min<int>(start + batch_size, x.size()));
+}

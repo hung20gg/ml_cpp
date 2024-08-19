@@ -28,11 +28,13 @@ class BinaryCrossEntropy : public LossFunction {
 
 class CrossEntropyWithSoftmax : public LossFunction {
     public:
+        double forward(std::vector<double> y_true, std::vector<double> y_pred) override;
         double forward(std::vector<std::vector<int>> y_true, std::vector<std::vector<double>> y_pred);
-        double forward(std::vector<int> y_true, std::vector<std::vector<double>> y_pred) override;
+        double forward(std::vector<int> y_true, std::vector<std::vector<double>> y_pred);
 
-        std::vector<double> backward(std::vector<std::vector<int>> y_true, std::vector<std::vector<double>> y_pred) override;
-        std::vector<double> backward(std::vector<int> y_true, std::vector<std::vector<double>> y_pred) override;
+        std::vector<double> backward(std::vector<std::vector<int>> y_true, std::vector<std::vector<double>> y_pred);
+        std::vector<double> backward(std::vector<int> y_true, std::vector<std::vector<double>> y_pred);
+        std::vector<double> backward(std::vector<double> y_true, std::vector<double> y_pred) override;
 };
 
 class Hinge : public LossFunction {
