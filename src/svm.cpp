@@ -1,5 +1,7 @@
 #include "../headers/svm.hpp"
 #include "../headers/function.hpp"
+#include <vector>
+#include <cmath>
 
 double SVC::__linear_kernel(std::vector<double> x1, std::vector<double> x2){
     return dot(x1, x2);
@@ -72,6 +74,7 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
     }
 
     bool check = false;
+    double prev_obj = INT_MAX;
 
     // Start training
     for (int iter = 0; iter < max_iter; iter++){
@@ -109,6 +112,7 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
             gradient[i] = grad_i;
             
         }
+        // Update Beta
 
         // Update the weights
         for (int i = 0; i < X.size(); i++){
@@ -116,9 +120,26 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
         }
 
         // Check if the error is less than the tolerance
-        if (obj_1 + obj_2 + obj_3 < tol | check){
+        if (std::abs(obj_1 + obj_2 + obj_3 - prev_obj) < this->_tol){
+            check = true;
+        }
+        prev_obj = obj_1 + obj_2 + obj_3;
+
+        if (check){
             break;
         }
     }
+
+    this->_alpha = alpha;
+
+    //Store weight if using linear kernel
+
+
+
+
+
+};
+
+std::vector<double> SVC::predict(std::vector<std::vector<double>> X){
 
 }

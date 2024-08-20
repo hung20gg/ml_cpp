@@ -9,7 +9,7 @@ class BaseModel {
         std::string name;
         std::string description;
         std::string type;
-        vector<double> weights;
+        std::vector<double> weights;
 
         virtual void fit(std::vector<std::vector<double>> X, std::vector<double> y) = 0;
         
@@ -25,7 +25,7 @@ class TreeBasedModel {
             std::string name;
             std::string description;
             std::string type;
-            vector<double> weights;
+            std::vector<double> weights;
     
             virtual void fit(std::vector<std::vector<double>> X, std::vector<double> y) = 0;
             virtual std::vector<double> predict(std::vector<std::vector<double>> X);
@@ -46,4 +46,4 @@ class UnsuperivedBasedModel {
             virtual void fit(std::vector<std::vector<double>> X) = 0;
             virtual std::vector<double> predict(std::vector<std::vector<double>> X) = 0;
             virtual std::vector<double> predict_proba(std::vector<std::vector<double>> X) = 0;
-}
+};

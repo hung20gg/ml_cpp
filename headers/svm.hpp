@@ -16,6 +16,8 @@ class SVC : public BaseModel{
         double _tol;
         int _max_iter;
         double _C;
+        std::vector<double>_alpha;
+        double _b;
 
 
         double __linear_kernel(std::vector<double> x1, std::vector<double> x2);

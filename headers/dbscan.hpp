@@ -19,7 +19,7 @@ struct Point {
     }
 };
 
-class DBSCAN : public ClusteringModel {
+class DBSCAN : public UnsuperivedBasedModel {
     private:
         double eps;
         int min_samples;
@@ -28,7 +28,7 @@ class DBSCAN : public ClusteringModel {
         std::vector<Point> points;
         std::vector<int> labels;
 
-        DBSCAN(double eps, int min_samples): ClusteringModel(){
+        DBSCAN(double eps, int min_samples): UnsuperivedBasedModel(){
             this->eps = eps;
             this->min_samples = min_samples;
 
@@ -40,6 +40,6 @@ class DBSCAN : public ClusteringModel {
         void fit(std::vector<std::vector<double>> X) override;
         void expand_cluster(Point &p, int cluster_id);
         std::vector<int> range_query(Point &p);
-        std::vector<int> predict(std::vector<std::vector<double>> X) override;
+        std::vector<double> predict(std::vector<std::vector<double>> X) override;
 
-}
+};
