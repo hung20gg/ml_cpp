@@ -7,6 +7,70 @@
 #include <algorithm>
 #include <numeric>
 
+double dot(const std::vector<double> &a, const std::vector<double> &b){
+    double sum = 0;
+    for (int i = 0; i < a.size(); i++){
+        sum += a[i] * b[i];
+    }
+    return sum;
+}
+
+std::vector<double> operator+(const std::vector<double> &a, const std::vector<double> &b){
+    std::vector<double> result(a.size());
+    for (int i = 0; i < a.size(); i++){
+        result[i] = a[i] + b[i];
+    }
+    return result;
+}
+
+std::vector<double> operator-(const std::vector<double> &a, const std::vector<double> &b){
+    std::vector<double> result(a.size());
+    for (int i = 0; i < a.size(); i++){
+        result[i] = a[i] - b[i];
+    }
+    return result;
+}
+
+std::vector<double> operator*(const std::vector<double> &a, const std::vector<double> &b){
+    std::vector<double> result(a.size());
+    for (int i = 0; i < a.size(); i++){
+        result[i] = a[i] * b[i];
+    }
+    return result;
+}
+
+std::vector<std::vector<double>> matrix_mul(const std::vector<std::vector<double>>& a, const std::vector<std::vector<double>>& b){
+    std::vector<std::vector<double>> result(a.size(), std::vector<double>(b[0].size()));
+    for (int i = 0; i < a.size(); i++){
+        for (int j = 0; j < b[0].size(); j++){
+            for (int k = 0; k < a[0].size(); k++){
+                result[i][j] += a[i][k] * b[k][j];
+            }
+        }
+    }
+    return result;
+}
+
+std::vector<double> vector_mul(const std::vector<double>& a, const std::vector<double>& b){
+
+}
+
+double L1_regularization(std::vector<double>& weights){
+    double sum = 0;
+    for (int i = 0; i < weights.size(); i++){
+        sum += abs(weights[i]);
+    }
+    return sum;
+}
+
+double L2_regularization(std::vector<double>& weights){
+    double sum = 0;
+    for (int i = 0; i < weights.size(); i++){
+        sum += pow(weights[i], 2);
+    }
+    return sum;
+}
+
 std::vector<size_t> argsort(const std::vector<double>& v) {
     std::vector<size_t> idx(v.size());
     std::iota(idx.begin(), idx.end(), 0);

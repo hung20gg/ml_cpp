@@ -1,6 +1,5 @@
 #include "../headers/sgd.hpp"
 #include "../headers/function.hpp"
-#include "../headers/regularization.hpp"
 #include "../headers/loss_function.hpp"
 #include <iostream>
 #include <vector>
@@ -14,24 +13,9 @@ void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> 
         this->weights.push_back(0);
     }
 
-    // Loss function
-    // if (this->_loss == "binary"){
-    //     BinaryCrossEntropy loss ;
-    // }else if (this->_loss == "mse"){
-    //     MeanSquaredError loss;
-    // }else if (this->_loss == "mae"){
-    //     MeanAbsoluteError loss;
-    // }else {//  if (this->_loss == "hinge"){
-    //     Hinge loss;
-    // }
-    // }else {
-    //     CrossEntropyWithSoftmax loss;
-    // }
-
-    // Implement dynamic loss later
-
-    BinaryCrossEntropy loss;
-
+    // Loss function and Regularization
+    LossFunction* loss = createLossFunction(this->_loss);
+    Regularization* reg = createRegularization(this->_regularization);
 
     for(int epoch = 0 ; epoch < this->_max_iter ; epoch ++){
         
@@ -42,39 +26,35 @@ void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> 
             std::vector<double>y_batch = slice1D(y, i, this->_batch_size);
             // Forward pass
             std::vector<double> y_pred = predict_proba(X_batch);
-            double error = loss.forward(y_batch, y_pred);
+            double error = loss->forward(y_batch, y_pred);
+            double reg_error = this->_lambda * reg->forward(this->weights);
 
             // Break if the error is less than the tolerance
-            if (error < this->_tol){
+            if (error + reg_error < this->_tol){
                 break;
             }
 
-            std::vector<double> grad_loss = loss.backward(y_batch, y_pred);
-            std::vector<double> grad_sigmoid;
-            for (int j = 0; j < X.size(); j++){
-                grad_sigmoid.push_back(y_pred[j] * (1 - y_pred[j]));
-            }
-            std::vector<double> sum(X[0].size(), 0);
+            std::vector<double> grad_loss = loss->backward(y, y_pred);
+            std::vector<double> grad_reg = reg->backward(this->weights);
+            
+            std::vector<double> Dw(X[0].size(), 0);
 
-            // DL/dw = (y_pred - y)TX 
+            // DL/dw = XT*Dl/dy 
             for (int j = 0; j < X.size(); j++){
                 for (int k = 0; k < X[0].size(); k++){
-                    sum[k] += (grad_loss[j] * grad_sigmoid[j] * X[j][k]);
+                    Dw[k] += (grad_loss[j] * X[j][k]);
                 }
             }
 
             // Update the weights
             for (int j = 0; j < X[0].size(); j++){
-                this->weights[j] -= this->_learning_rate * sum[j] / X.size();
+                this->weights[j] -= this->_learning_rate * Dw[j] / X.size();
             }
-
 
             // Regularization
-            if (this->_regularization == "L1"){
-                this->weights -= this->_learning_rate * this->_lambda * L1_regularization(this->weights) / X.size();
-            }
-            else if (this->_regularization == "L2"){
-                this->weights -= this->_learning_rate * this->_lambda * L2_regularization(this->weights) / X.size();
+            // w(k+1) = w(k) - lr * (DL/dw + lambda * dR/dw)
+            for (int j = 0; j < X[0].size(); j++){
+                this->weights[j] -= this->_learning_rate * grad_reg[j] / X.size();
             }
 
         }
