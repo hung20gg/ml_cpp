@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 
+// Kernel functions
 double SVC::__linear_kernel(std::vector<double> x1, std::vector<double> x2){
     return dot(x1, x2);
 }
@@ -17,9 +18,13 @@ double SVC::__rbf_kernel(std::vector<double> x1, std::vector<double> x2, double 
 
 void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
 
+
+    // Store the data
+    this->_X = X;
+    this->_y = y;
+
     // Initialize weights
     std::vector<double> weights(X[0].size(), 0);
-    std::vector<double> bias = {0};
 
     // Initialize learning rate
     double learning_rate = this->_learning_rate;
@@ -106,9 +111,7 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
 
             //Global objective function update
             obj_2 += obj_2_i;
-            obj_3 += alpha[i] * y[i];
-
-            //If outside the gradient range
+            obj_3 += alpha[i] * y[i];            
 
             // Store the gradient
             gradient[i] = grad_i;
@@ -126,6 +129,14 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
         // Update the weights
         for (int i = 0; i < X.size(); i++){
             alpha[i] = alpha[i] + learning_rate * gradient[i];
+
+            // Clip the weights to be within the range (0, C)
+            if (alpha[i] < 0){
+                alpha[i] = 0;
+            }
+            else if (alpha[i] > C){
+                alpha[i] = C;
+            }
         }
 
         // Check if the error is less than the tolerance
@@ -140,15 +151,68 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
     }
 
     this->_alpha = alpha;
+    this->_beta = beta;
 
-    //Store weight if using linear kernel
+    //Store weight if using linear kernel (only possible for linear kernel)
+    if (kernel == "linear"){
+        for (int i = 0; i < X.size(); i++){
+            for (int j = 0; j < X[0].size(); j++){
+                weights[j] += alpha[i] * y[i] * X[i][j];
+            }
+        }
+    }
 
-
-
-
+    // Get the bias term
+    // bias = sum(y - sum(alpha * y * kernel(x, xi))) / N where alpha > 0 and alpha < C
+    double _count = 0;
+    for (int i = 0; i < X.size(); i++){
+        if (alpha[i] > 0 && alpha[i] < C){
+            _count ++;
+            coef0 += y[i];
+            for (int j = 0; j < X.size(); j++){
+                coef0 -= alpha[j] * y[j] * kernel_matrix[j][i];
+            }
+        }
+    }
+    coef0 /= _count;
+    this->_coef0 = coef0;
 
 };
 
 std::vector<double> SVC::predict(std::vector<std::vector<double>> X){
+    std::vector<double> y_pred;
+    for (int i = 0; i < X.size(); i++){
+        double sum = 0;
 
+        // f(xk) = wT * xk + b
+        if (this->_kernel == "linear"){
+            for (int j = 0; j < this->weights.size(); j++){
+                sum += this->weights[j] * X[i][j];
+            }
+        }
+
+        // Dual form
+        // f(xk) = sum(alpha * y * kernel(xk, xi)) + coef0
+        else if (this->_kernel == "polynomial"){
+            for (int j = 0; j < this->_X.size(); j++){
+                sum += this->_alpha[j] * this->_y[j] * __polynomial_kernel(this->_X[j], X[i], this->_degree);
+            }
+        }
+        else if (this->_kernel == "rbf"){
+            for (int j = 0; j < this->_X.size(); j++){
+                sum += this->_alpha[j] * this->_y[j] * __rbf_kernel(this->_X[j], X[i], this->_gamma);
+            }
+        }
+
+        sum += this->_coef0;
+
+        // Predict the class
+        if (sum >= 0){
+            y_pred.push_back(1);
+        }
+        else{
+            y_pred.push_back(-1);
+        }
+    }
+    return y_pred;
 }

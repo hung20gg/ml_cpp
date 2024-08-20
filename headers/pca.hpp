@@ -4,7 +4,7 @@
 #include <vector>
 #include <cmath>
 
-class PCA : public BaseModel{
+class PCA : public SupervisedBasedModel{
 
     private:
         std::vector<std::vector<double>> _eigenvectors;

@@ -4,11 +4,17 @@
 
 
 class BaseModel {
-
+    
     public:
         std::string name;
         std::string description;
         std::string type;
+
+}
+
+class SupervisedBasedModel : public BaseModel {
+
+    public:
         std::vector<double> weights;
 
         virtual void fit(std::vector<std::vector<double>> X, std::vector<double> y) = 0;
@@ -19,12 +25,9 @@ class BaseModel {
         virtual void save(std::string filename) = 0;
 };
 
-class TreeBasedModel {
+class TreeBasedModel : public BaseModel {
     
         public:
-            std::string name;
-            std::string description;
-            std::string type;
             std::vector<double> weights;
     
             virtual void fit(std::vector<std::vector<double>> X, std::vector<double> y) = 0;
@@ -36,12 +39,9 @@ class TreeBasedModel {
             // void predict_proba();
 };
 
-class UnsuperivedBasedModel {
+class UnsuperivedBasedModel : public BaseModel {
 
         public:
-            std::string name;
-            std::string description;
-            std::string type;
 
             virtual void fit(std::vector<std::vector<double>> X) = 0;
             virtual std::vector<double> predict(std::vector<std::vector<double>> X) = 0;

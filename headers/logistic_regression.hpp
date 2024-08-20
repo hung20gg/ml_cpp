@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-class LogisticRegression : public BaseModel {
+class LogisticRegression : public SupervisedBasedModel {
 
     private:
         double _learning_rate;
@@ -14,7 +14,7 @@ class LogisticRegression : public BaseModel {
 
     public:
 
-        LogisticRegression(double learning_rate = 0.01, std::string regularization = "L1", double lambda, int max_iter = 1000, double tol = 0.00001): BaseModel(){
+        LogisticRegression(double learning_rate = 0.01, std::string regularization = "L1", double lambda, int max_iter = 1000, double tol = 0.00001): SupervisedBasedModel(){
             
             this->_learning_rate = learning_rate;
             this->_regularization = regularization;

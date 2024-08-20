@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-class KNN: public BaseModel{
+class KNN: public SupervisedBasedModel{
 
     private:
         std::vector<std::vector<double>> _X_train;
@@ -14,7 +14,7 @@ class KNN: public BaseModel{
     public:
         int n_neighbors;
         int num_classes;
-        KNN(int n_neighbors): BaseModel(){
+        KNN(int n_neighbors): SupervisedBasedModel(){
             this->n_neighbors = n_neighbors;
 
             this->name = "KNN";

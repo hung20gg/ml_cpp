@@ -3,17 +3,7 @@
 #include <vector>
 #include <cmath>
 
-// void BaseModel::fit(std::vector<std::vector<double>> X, std::vector<double> y)  {
-//     std::cout << "Fitting the model" << std::endl;
-
-//     // Initialize the weights
-//     for (int i = 0; i < X[0].size(); i++){
-//         this->weights.push_back(0);
-//     }
-
-// };
-
-std::vector<double> BaseModel::predict_proba(std::vector<std::vector<double>> X){
+std::vector<double> SupervisedBasedModel::predict_proba(std::vector<std::vector<double>> X){
 
     std::vector<double> y_pred;
     for (int i = 0; i < X.size(); i++){
@@ -26,7 +16,7 @@ std::vector<double> BaseModel::predict_proba(std::vector<std::vector<double>> X)
     return y_pred;
 }
 
-std::vector<double> BaseModel::predict(std::vector<std::vector<double>> X){
+std::vector<double> SupervisedBasedModel::predict(std::vector<std::vector<double>> X){
     std::vector<double> y_pred;
     for (int i = 0; i < X.size(); i++){
         double sum = 0;

@@ -4,7 +4,7 @@
 
 // Kernel functions
 
-class SVC : public BaseModel{
+class SVC : public SupervisedBasedModel{
 
     private:
         double _learning_rate;
@@ -18,6 +18,8 @@ class SVC : public BaseModel{
         double _C;
         std::vector<double>_alpha;
         double _b;
+        std::vector<std::vector<double>> _X;
+        std::vector<double> _y;
 
 
         double __linear_kernel(std::vector<double> x1, std::vector<double> x2);
@@ -26,7 +28,7 @@ class SVC : public BaseModel{
 
 
     public:
-        SVC(double learning_rate = 0.01, double beta = 0.9, std::string kernel = "rbf", double gamma = 0.1, int degree = 3, double coef0 = 0.0, double tol = 0.0001, int max_iter = 1000, double C = 1.0): BaseModel(){
+        SVC(double learning_rate = 0.01, double beta = 0.9, std::string kernel = "rbf", double gamma = 0.1, int degree = 3, double coef0 = 0.0, double tol = 0.0001, int max_iter = 1000, double C = 1.0): SupervisedBasedModel(){
             
             this->_learning_rate = learning_rate;
             this->_beta = beta;
@@ -45,6 +47,6 @@ class SVC : public BaseModel{
 
         void fit(std::vector<std::vector<double>> X, std::vector<double> y) override;
         std::vector<double> predict(std::vector<std::vector<double>> X) override;
-        std::vector<double> predict_proba(std::vector<std::vector<double>> X) override;
+        // std::vector<double> predict_proba(std::vector<std::vector<double>> X) override;
 
 };

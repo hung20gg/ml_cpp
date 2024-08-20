@@ -34,5 +34,5 @@ class SGDClassifier : public BaseModel {
 
         void fit(std::vector<std::vector<double>> X, std::vector<double> y) override;
         std::vector<double> predict(std::vector<std::vector<double>> X) override;
-        std::vector<double> predict_proba(std::vector<std::vector<double>> X) override;
+        // std::vector<double> predict_proba(std::vector<std::vector<double>> X) override;
 };
