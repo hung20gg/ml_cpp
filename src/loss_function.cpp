@@ -99,6 +99,7 @@ std::vector<double> CrossEntropyWithSoftmax::backward(std::vector<int> y_true, s
     for (int i = 0; i < y_true.size(); i++){
         grad.push_back(softmax_values[i] - 1);
     }
+    return grad;
 };
 
 // Unusable, for overwriting purposes only

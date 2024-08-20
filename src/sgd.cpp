@@ -56,7 +56,7 @@ void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> 
             // Regularization
             // w(k+1) = w(k) - lr * (DL/dw + lambda * dR/dw)
             for (int j = 0; j < X[0].size(); j++){
-                this->weights[j] -= this->_learning_rate * grad_reg[j] / X.size();
+                this->weights[j] -= this->_learning_rate * this->_lambda * grad_reg[j] / X.size();
             }
 
         }
