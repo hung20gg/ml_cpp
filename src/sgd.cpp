@@ -19,6 +19,9 @@ void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> 
     LossFunction* loss = createLossFunction(this->_loss);
     Regularization* reg = createRegularization(this->_regularization);
 
+    double prev_error = INT_MAX;
+
+    // Epochs
     for(int epoch = 0 ; epoch < this->_max_iter ; epoch ++){
         
         // Mini-batch
@@ -30,9 +33,10 @@ void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> 
             std::vector<double> y_pred = predict_proba(X_batch);
             double error = loss->forward(y_batch, y_pred);
             double reg_error = this->_lambda * reg->forward(this->weights);
+            double tol_error = error + reg_error;
 
             // Break if the error is less than the tolerance
-            if (error + reg_error < this->_tol){
+            if (std::abs(tol_error - prev_error) < this->_tol){
                 break;
             }
 

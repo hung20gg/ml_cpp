@@ -18,18 +18,17 @@ void LogisticRegression::fit(std::vector<std::vector<double>> X, std::vector<dou
     LossFunction* loss = createLossFunction("binary");
     Regularization* reg = createRegularization(this->_regularization);
 
-
-    // Regularization
-    // if (this->_penalty == "l1"){
+    double prev_error = INT_MAX;
 
     for(int i = 0 ; i < this->_max_iter ; i ++){
         // Forward pass
         std::vector<double> y_pred = predict_proba(X);
         double error = loss->forward(y, y_pred) + this->_lambda * reg->forward(this->weights);
         double reg_error = this->_lambda * reg->forward(this->weights);
+        double tol_error = error + reg_error;
 
         // Break if the error is less than the tolerance
-        if (error + reg_error < this->_tol){
+        if (std::abs(tol_error - prev_error) < this->_tol){
             break;
         }
 
@@ -72,6 +71,7 @@ void LogisticRegression::fit(std::vector<std::vector<double>> X, std::vector<dou
         for (int j = 0; j < X[0].size(); j++){
             this->weights[j] -= this->_learning_rate * this->_lambda * grad_reg[j] / X.size();
         }
+        prev_error = tol_error;
 
     }
 

@@ -8,12 +8,12 @@ double SVC::__linear_kernel(std::vector<double> x1, std::vector<double> x2){
     return dot(x1, x2);
 }
 
-double SVC::__polynomial_kernel(std::vector<double> x1, std::vector<double> x2, int degree){
-    return pow(dot(x1, x2) + 1, degree);
+double SVC::__polynomial_kernel(std::vector<double> x1, std::vector<double> x2){
+    return pow(dot(x1, x2) + 1, this->_degree);
 }
 
-double SVC::__rbf_kernel(std::vector<double> x1, std::vector<double> x2, double gamma){
-    return exp(-gamma * distance(x1, x2));
+double SVC::__rbf_kernel(std::vector<double> x1, std::vector<double> x2){
+    return exp(-this->_gamma * distance(x1, x2));
 }
 
 // Currently only supports 2 classes 1 and -1
@@ -35,12 +35,6 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
 
     // Initialize kernel
     std::string kernel = this->_kernel;
-
-    // Initialize gamma
-    double gamma = this->_gamma;
-
-    // Initialize degree
-    int degree = this->_degree;
 
     // Initialize coef0
     double coef0 = this->_coef0;
@@ -71,10 +65,10 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
                 kernel_matrix[i][j] = __linear_kernel(X[i], X[j]);
             }
             else if (kernel == "polynomial"){
-                kernel_matrix[i][j] = __polynomial_kernel(X[i], X[j], degree);
+                kernel_matrix[i][j] = __polynomial_kernel(X[i], X[j]);
             }
             else if (kernel == "rbf"){
-                kernel_matrix[i][j] = __rbf_kernel(X[i], X[j], gamma);
+                kernel_matrix[i][j] = __rbf_kernel(X[i], X[j]);
             }
         }
     }
@@ -196,12 +190,12 @@ std::vector<double> SVC::predict(std::vector<std::vector<double>> X){
         // f(xk) = sum(alpha * y * kernel(xk, xi)) + coef0
         else if (this->_kernel == "polynomial"){
             for (int j = 0; j < this->_X.size(); j++){
-                sum += this->_alpha[j] * this->_y[j] * __polynomial_kernel(this->_X[j], X[i], this->_degree);
+                sum += this->_alpha[j] * this->_y[j] * __polynomial_kernel(this->_X[j], X[i]);
             }
         }
         else if (this->_kernel == "rbf"){
             for (int j = 0; j < this->_X.size(); j++){
-                sum += this->_alpha[j] * this->_y[j] * __rbf_kernel(this->_X[j], X[i], this->_gamma);
+                sum += this->_alpha[j] * this->_y[j] * __rbf_kernel(this->_X[j], X[i]);
             }
         }
 

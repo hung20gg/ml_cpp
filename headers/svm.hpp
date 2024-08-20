@@ -23,8 +23,8 @@ class SVC : public SupervisedBasedModel{
 
 
         double __linear_kernel(std::vector<double> x1, std::vector<double> x2);
-        double __polynomial_kernel(std::vector<double> x1, std::vector<double> x2, int degree = 3);
-        double __rbf_kernel(std::vector<double> x1, std::vector<double> x2, double gamma = 0.1);
+        double __polynomial_kernel(std::vector<double> x1, std::vector<double> x2);
+        double __rbf_kernel(std::vector<double> x1, std::vector<double> x2);
 
 
     public:
