@@ -91,7 +91,7 @@ class DecisionTree : TreeBasedModel{
         std::string _criterion;
         std::string _max_features;
 
-        std::vector<CategoricalNode*> _split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y);
+        std::vector<CategoricalNode*> __split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y);
 
         
         double __entropy(std::vector<double>&y);

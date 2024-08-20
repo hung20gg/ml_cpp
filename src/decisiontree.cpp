@@ -27,14 +27,14 @@ double DecisionTree::__entropy(std::vector<double>&y){
 double DecisionTree::__information_gain(std::vector<std::vector<double>>&y_splits, double entropy){
     double total_entropy = 0;
     for(int i = 0; i < y_splits.size(); i++){
-        total_entropy += y_splits[i].size() / y_splits.size() * __entropy(y_splits[i]);
+        total_entropy += y_splits[i].size() / y_splits.size() * this->__entropy(y_splits[i]);
     }
 
     return entropy - total_entropy;
 
 }
 
-std::vector<CategoricalNode*> DecisionTree::_split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y){
+std::vector<CategoricalNode*> DecisionTree::__split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y){
     std::vector<CategoricalNode*> children;
     
     double best_gain = 0;
@@ -92,7 +92,7 @@ std::vector<CategoricalNode*> DecisionTree::_split(CategoricalNode* node, std::v
 
         double Hxs = 0;
         for(int i = 0; i < y_splits.size(); i++){
-            double entropy = __entropy(y_splits[i]);
+            double entropy = this->__entropy(y_splits[i]);
             Hxs += y_splits[i].size() / y_splits.size() * entropy;
             entropies.push_back(entropy);
         }
@@ -161,7 +161,7 @@ void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y
         root_index.push_back(i);
     }
     
-    this->root->entropy = __entropy(y);
+    this->root->entropy = this->__entropy(y);
     this->root->feature_index = root_index;
     this->root->depth = 0;
 
@@ -171,7 +171,7 @@ void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y
         CategoricalNode* node = stack.back();
         stack.pop_back();
 
-        std::vector<CategoricalNode*> children = _split(node, X, y);
+        std::vector<CategoricalNode*> children = this->__split(node, X, y);
 
         // Depth first search, add the children to the stack
         for(int i = 0; i < children.size(); i++){
