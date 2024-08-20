@@ -7,7 +7,7 @@
 #include <memory>
 
 
-
+// Mean Squared Error
 double MeanSquaredError::forward(std::vector<double> y_true, std::vector<double> y_pred) const{
 
     return mean_squared_error(y_true, y_pred);
@@ -22,6 +22,8 @@ std::vector<double> MeanSquaredError::backward(std::vector<double> y_true, std::
     return grad;
 };
 
+
+// Mean Absolute Error
 double MeanAbsoluteError::forward(std::vector<double> y_true, std::vector<double> y_pred) const{
 
     return mean_absolute_error(y_true, y_pred);
@@ -36,6 +38,8 @@ std::vector<double> MeanAbsoluteError::backward(std::vector<double> y_true, std:
     return grad;
 };
 
+
+// Binary Cross Entropy
 double BinaryCrossEntropy::forward(std::vector<double> y_true, std::vector<double> y_pred) const{
 
     return binary_crossentropy(y_true, y_pred);
@@ -55,6 +59,8 @@ double CrossEntropyWithSoftmax::forward(std::vector<double> y_true, std::vector<
     return 0;
 };
 
+
+// Cross Entropy with Softmax
 double CrossEntropyWithSoftmax::forward(std::vector<std::vector<int>> y_true, std::vector<std::vector<double>> y_pred){
 
     return cross_entropy(y_true, y_pred);
@@ -106,6 +112,7 @@ std::vector<double> CrossEntropyWithSoftmax::backward(std::vector<double> y_true
 };
 
 
+// Hinge Loss
 double Hinge::forward(std::vector<double> y_true, std::vector<double> y_pred)const{
     double loss = 0;
     for (int i = 0; i < y_true.size(); i++){
@@ -123,6 +130,7 @@ std::vector<double> Hinge::backward(std::vector<double> y_true, std::vector<doub
 };
 
 
+// L1 Regularization
 double L1Loss::forward(std::vector<double> weights) const {
     return L1_regularization(weights);
 };
@@ -135,6 +143,8 @@ std::vector<double> L1Loss::backward(std::vector<double> weights) const {
     return grad;
 };
 
+
+// L2 Regularization
 double L2Loss::forward(std::vector<double> weights) const {
     return L2_regularization(weights);
 };

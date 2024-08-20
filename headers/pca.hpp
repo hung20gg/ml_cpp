@@ -10,4 +10,4 @@ class PCA : public SupervisedBasedModel{
         std::vector<std::vector<double>> _eigenvectors;
         std::vector<double> _eigenvalues;
 
-}
+};

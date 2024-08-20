@@ -13,7 +13,7 @@ struct CategoricalNode{
     int depth;
 
     std::vector<double> unique_values;
-    std::vector<CategoricalNode> children;
+    std::vector<CategoricalNode*> children;
 
     void set_label(double value){
         this->value = value;
@@ -24,14 +24,14 @@ struct CategoricalNode{
         this->unique_values = unique_values;
     };
 
-    void add_child(CategoricalNode* child){
+    void add_child(CategoricalNode *child){
         this->children.push_back(child);
     };
 
     CategoricalNode* next_node(std::vector<double> x){
         for(int i = 0; i < this->unique_values.size(); i++){
             if(x[this->split_index] == this->unique_values[i]){
-                return &this->children[i];
+                return this->children[i];
             }
         }
         return nullptr;
@@ -43,6 +43,7 @@ struct CategoricalNode{
 
 struct NumericalNode{
     std::vector<int> feature_index;
+    int split_index = -1;
     double threshold;
     double value = -1;
     double entropy;
@@ -60,16 +61,16 @@ struct NumericalNode{
         this->threshold = threshold;
     };
 
-    void set_left(Node* left){
+    void set_left(NumericalNode* left){
         this->left = left;
     };
 
-    void set_right(Node* right){
+    void set_right(NumericalNode* right){
         this->right = right;
     };
 
     NumericalNode* next_node(std::vector<double> x){
-        if(x[this->feature_index] <= this->threshold){
+        if(x[this->split_index] <= this->threshold){
             return this->left;
         }else{
             return this->right;
@@ -90,14 +91,14 @@ class DecisionTree : TreeBasedModel{
         std::string _criterion;
         std::string _max_features;
 
-        std::vector<CategoricalNode> _split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y);
+        std::vector<CategoricalNode*> _split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y);
 
         
         double __entropy(std::vector<double>&y);
         double __information_gain(std::vector<std::vector<double>>&y, double entropy);
         void __set_label(CategoricalNode* node);
     public:
-        DecisionTree(int max_depth = 20, int min_samples_split = 2, int min_samples_leaf = 1, double min_gain, std::string criterion = "gini", std::string max_features = "auto"): TreeBasedModel(){
+        DecisionTree(int max_depth = 20, int min_samples_split = 2, int min_samples_leaf = 1, double min_gain = 0.02, std::string criterion = "gini", std::string max_features = "auto"): TreeBasedModel(){
             
             this->_max_depth = max_depth;
             this->_min_samples_split = min_samples_split;
@@ -115,4 +116,4 @@ class DecisionTree : TreeBasedModel{
         void fit(std::vector<std::vector<double>> X, std::vector<double> y) override;
         std::vector<double> predict(std::vector<std::vector<double>> X) override;
         
-}
+};

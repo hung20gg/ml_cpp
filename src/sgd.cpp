@@ -5,6 +5,8 @@
 #include <vector>
 #include <cmath>
 
+
+// Not implementing try-catch num labels for now
 void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> y){
     std::cout << "Fitting the model" << std::endl;
 

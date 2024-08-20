@@ -4,7 +4,7 @@
 #include <vector>
 
 
-class SGDClassifier : public BaseModel {
+class SGDClassifier : public SupervisedBasedModel {
 
     private:
         double _learning_rate;
@@ -17,7 +17,7 @@ class SGDClassifier : public BaseModel {
 
     public:
 
-        SGDClassifier(double learning_rate = 0.01, int batch_size = 32, string regularization = "L1", double lambda, int max_iter = 1000, double tol = 0.00001, string loss = 'softmax'): BaseModel(){
+        SGDClassifier(double learning_rate = 0.01, int batch_size = 32, std::string regularization = "L1", double lambda = 0.001, int max_iter = 1000, double tol = 0.00001, std::string loss = "softmax"): SupervisedBasedModel(){
             
             this->_learning_rate = learning_rate;
             this->_regularization = regularization;

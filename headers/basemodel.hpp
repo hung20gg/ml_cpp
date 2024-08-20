@@ -10,7 +10,7 @@ class BaseModel {
         std::string description;
         std::string type;
 
-}
+};
 
 class SupervisedBasedModel : public BaseModel {
 
@@ -32,7 +32,6 @@ class TreeBasedModel : public BaseModel {
     
             virtual void fit(std::vector<std::vector<double>> X, std::vector<double> y) = 0;
             virtual std::vector<double> predict(std::vector<std::vector<double>> X);
-            virtual std::vector<double> predict_proba(std::vector<std::vector<double>> X);
     
             // void fit(std::vector<std::vector<double>> X, std::vector<double> y);
             // void predict();
@@ -44,6 +43,4 @@ class UnsuperivedBasedModel : public BaseModel {
         public:
 
             virtual void fit(std::vector<std::vector<double>> X) = 0;
-            virtual std::vector<double> predict(std::vector<std::vector<double>> X) = 0;
-            virtual std::vector<double> predict_proba(std::vector<std::vector<double>> X) = 0;
 };

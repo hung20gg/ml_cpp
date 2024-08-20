@@ -5,7 +5,7 @@
 #include <vector>
 #include <cmath>
 
-
+// Currently only supports binary classification
 void LogisticRegression::fit(std::vector<std::vector<double>> X, std::vector<double> y)  {
     std::cout << "Fitting the model" << std::endl;
 

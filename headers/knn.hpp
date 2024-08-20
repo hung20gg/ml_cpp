@@ -24,4 +24,4 @@ class KNN: public SupervisedBasedModel{
 
         void fit(std::vector<std::vector<double>> X, std::vector<double> y) override;
         std::vector<double> predict(std::vector<std::vector<double>> X) override;
-}
+};

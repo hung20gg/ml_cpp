@@ -8,14 +8,15 @@ double SVC::__linear_kernel(std::vector<double> x1, std::vector<double> x2){
     return dot(x1, x2);
 }
 
-double SVC::__polynomial_kernel(std::vector<double> x1, std::vector<double> x2, int degree = 3){
+double SVC::__polynomial_kernel(std::vector<double> x1, std::vector<double> x2, int degree){
     return pow(dot(x1, x2) + 1, degree);
 }
 
-double SVC::__rbf_kernel(std::vector<double> x1, std::vector<double> x2, double gamma = 0.1){
+double SVC::__rbf_kernel(std::vector<double> x1, std::vector<double> x2, double gamma){
     return exp(-gamma * distance(x1, x2));
 }
 
+// Currently only supports 2 classes 1 and -1
 void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
 
 

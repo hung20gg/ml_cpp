@@ -6,9 +6,14 @@
 
 struct Point {
     std::vector<double> features;
-    int cluster;
+    int cluster = 0;
+    int id;
 
-    Point(std::vector<double> features, int cluster) : features(features), cluster(cluster) {}
+    Point(std::vector<double> features, int cluster, int id) : features(features), cluster(cluster), id(id) {}
+
+    void change_cluster(int cluster) {
+        this->cluster = cluster;
+    }
 
     double distance(Point p) {
         double sum = 0;
@@ -37,9 +42,9 @@ class DBSCAN : public UnsuperivedBasedModel {
             this->type = "clustering";
         };
 
+        // Gonna change it to pointer soon
         void fit(std::vector<std::vector<double>> X) override;
-        void expand_cluster(Point &p, int cluster_id);
-        std::vector<int> range_query(Point &p);
-        std::vector<double> predict(std::vector<std::vector<double>> X) override;
+        void expand_cluster(Point *p, std::vector<Point*> neighbor, int cluster_id);
+        std::vector<Point*> range_query(Point* p);
 
 };

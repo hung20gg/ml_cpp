@@ -34,8 +34,8 @@ double DecisionTree::__information_gain(std::vector<std::vector<double>>&y_split
 
 }
 
-std::vector<CategoricalNode> DecisionTree::_split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y){
-    std::vector<CategoricalNode> children;
+std::vector<CategoricalNode*> DecisionTree::_split(CategoricalNode* node, std::vector<std::vector<double>>& X, std::vector<double> &y){
+    std::vector<CategoricalNode*> children;
     
     double best_gain = 0;
     int best_attribute = -1;
@@ -127,7 +127,7 @@ std::vector<CategoricalNode> DecisionTree::_split(CategoricalNode* node, std::ve
             child.split_index = best_attribute;
             child.entropy = entropies[i];
             node->add_child(&child); 
-            children.push_back(child);
+            children.push_back(&child);
         }
     }
 
@@ -165,13 +165,13 @@ void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y
     this->root.feature_index = root_index;
     this->root.depth = 0;
 
-    std::vector<CategoricalNode> stack;
-    stack.push_back(this->root); 
+    std::vector<CategoricalNode*> stack;
+    stack.push_back(&this->root); 
     while (stack.size() > 0){
-        CategoricalNode node = stack.back();
+        CategoricalNode* node = stack.back();
         stack.pop_back();
 
-        std::vector<CategoricalNode> children = _split(&node, X, y);
+        std::vector<CategoricalNode*> children = _split(node, X, y);
 
         // Depth first search, add the children to the stack
         for(int i = 0; i < children.size(); i++){
@@ -180,7 +180,7 @@ void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y
 
         // If the node is a leaf node, set the label
         if (children.size() == 0){
-            __set_label(&node);
+            __set_label(node);
         }
     }
 

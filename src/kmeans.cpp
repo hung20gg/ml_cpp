@@ -74,9 +74,9 @@ void Kmeans::fit(std::vector<std::vector<double>> X){
 
 };
 
-std::vector<int> Kmeans::predict(std::vector<std::vector<double>> X){
+std::vector<double> Kmeans::predict(std::vector<std::vector<double>> X){
     std::cout << "Predicting" << std::endl;
-    std::vector<int> y_pred;
+    std::vector<double> y_pred;
 
     // Assign points to the nearest centroid
     for (int i = 0; i < X.size(); i++){
