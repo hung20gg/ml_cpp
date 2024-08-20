@@ -108,11 +108,20 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
             obj_2 += obj_2_i;
             obj_3 += alpha[i] * y[i];
 
+            //If outside the gradient range
+
             // Store the gradient
             gradient[i] = grad_i;
             
         }
         // Update Beta
+
+        double grad_B = 0;
+        for (int i = 0; i< X.size();i++){
+            grad_B += alpha[i] * y[i];
+        }
+
+        beta += 1/2 * grad_B * grad_B;
 
         // Update the weights
         for (int i = 0; i < X.size(); i++){
