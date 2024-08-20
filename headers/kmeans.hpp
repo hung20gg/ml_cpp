@@ -1,4 +1,3 @@
-#pragma once
 #include "basemodel.hpp"
 #include <iostream>
 #include <vector>

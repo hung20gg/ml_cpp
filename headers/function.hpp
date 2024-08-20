@@ -1,7 +1,3 @@
-#ifndef FUNCTIONS_H_INCLUDED
-#define FUNCTIONS_H_INCLUDED
-
-#pragma once
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -47,5 +43,3 @@ std::vector<int> pickKRandomInRangeN(int k, int n);
 std::vector<std::vector<double>> slice2D(const std::vector<std::vector<double>>& x, int start ,int batch_size);
 
 std::vector<double> slice1D(const std::vector<double>& x, int start ,int batch_size);
-
-#endif
