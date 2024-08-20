@@ -161,12 +161,12 @@ void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y
         root_index.push_back(i);
     }
     
-    this->root.entropy = __entropy(y);
-    this->root.feature_index = root_index;
-    this->root.depth = 0;
+    this->root->entropy = __entropy(y);
+    this->root->feature_index = root_index;
+    this->root->depth = 0;
 
     std::vector<CategoricalNode*> stack;
-    stack.push_back(&this->root); 
+    stack.push_back(this->root); 
     while (stack.size() > 0){
         CategoricalNode* node = stack.back();
         stack.pop_back();
@@ -189,7 +189,7 @@ void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y
 std::vector<double> DecisionTree::predict(std::vector<std::vector<double>> X){
     std::vector<double> y_pred;
     for(int i = 0; i < X.size(); i++){
-        CategoricalNode* current_node = &this->root;
+        CategoricalNode* current_node = this->root;
         while (current_node->children.size() > 0){
             current_node = current_node->next_node(X[i]);
         }
