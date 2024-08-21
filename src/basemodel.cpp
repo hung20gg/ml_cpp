@@ -3,7 +3,7 @@
 #include <vector>
 #include <cmath>
 
-std::vector<double> SupervisedBasedModel::predict_proba(std::vector<std::vector<double>> X){
+std::vector<double> SupervisedBasedModel::predict_proba(std::vector<std::vector<double>>& X){
 
     std::vector<double> y_pred;
     for (int i = 0; i < X.size(); i++){
@@ -16,7 +16,7 @@ std::vector<double> SupervisedBasedModel::predict_proba(std::vector<std::vector<
     return y_pred;
 }
 
-std::vector<double> SupervisedBasedModel::predict(std::vector<std::vector<double>> X){
+std::vector<double> SupervisedBasedModel::predict(std::vector<std::vector<double>>& X){
     std::vector<double> y_pred;
     for (int i = 0; i < X.size(); i++){
         double sum = 0;

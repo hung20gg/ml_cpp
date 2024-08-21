@@ -13,7 +13,7 @@ std::vector<Point*> DBSCAN::range_query(Point* p){
     return neighbors;
 }
 
-void DBSCAN::expand_cluster(Point *p, std::vector<Point*> neighbor, int cluster_id){
+void DBSCAN::expand_cluster(Point *p, std::vector<Point*> &neighbor, int &cluster_id){
 
     // Change the cluster of the point
     p->change_cluster(cluster_id);
@@ -49,7 +49,7 @@ void DBSCAN::expand_cluster(Point *p, std::vector<Point*> neighbor, int cluster_
     }   
 }
 
-void DBSCAN::fit(std::vector<std::vector<double>> X){
+void DBSCAN::fit(std::vector<std::vector<double>>& X){
     this->labels.resize(X.size(), 0.0);
     for (int i = 0; i < X.size(); i++){
         this->points.push_back(Point(X[i], 0, i));

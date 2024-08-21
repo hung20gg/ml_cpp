@@ -6,7 +6,7 @@
 #include <cmath>
 
 // Currently only supports binary classification
-void LogisticRegression::fit(std::vector<std::vector<double>> X, std::vector<double> y)  {
+void LogisticRegression::fit(std::vector<std::vector<double>>& X, std::vector<double> &y)  {
     std::cout << "Fitting the model" << std::endl;
 
     // Initialize the weights
@@ -77,7 +77,7 @@ void LogisticRegression::fit(std::vector<std::vector<double>> X, std::vector<dou
 
 };
 
-std::vector<double> LogisticRegression::predict_proba(std::vector<std::vector<double>> X){
+std::vector<double> LogisticRegression::predict_proba(std::vector<std::vector<double>> &X){
     std::vector<double> result;
     for (int i = 0; i < X.size(); i++){
         double sum = 0;
@@ -89,9 +89,9 @@ std::vector<double> LogisticRegression::predict_proba(std::vector<std::vector<do
     return sigmoid(result);
 };
 
-std::vector<double> LogisticRegression::predict(std::vector<std::vector<double>> X){
+std::vector<double> LogisticRegression::predict(std::vector<std::vector<double>> &X){
     std::vector<double> result;
-    std::vector<double> y_pred = predict_proba(X);
+    std::vector<double> y_pred = this->predict_proba(X);
     for (int i = 0; i < y_pred.size(); i++){
         if (y_pred[i] > 0.5){
             result.push_back(1);

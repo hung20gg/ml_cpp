@@ -6,8 +6,20 @@
 #include <cmath>
 
 
+std::vector<double> SGDClassifier::predict_proba(std::vector<std::vector<double>> &X){
+    std::vector<double> result;
+    for (int i = 0; i < X.size(); i++){
+        double sum = 0;
+        for (int j = 0; j < X[0].size(); j++){
+            sum += this->weights[j] * X[i][j];
+        }
+        result.push_back(sum);
+    }
+    return result;
+};
+
 // Not implementing try-catch num labels for now
-void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> y){
+void SGDClassifier::fit(std::vector<std::vector<double>>& X, std::vector<double>& y){
     std::cout << "Fitting the model" << std::endl;
 
     // Initialize the weights
@@ -28,9 +40,9 @@ void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> 
         for (int i = 0; i < X.size(); i += this->_batch_size){
 
             std::vector<std::vector<double>>X_batch = slice2D(X, i, this->_batch_size);
-            std::vector<double>y_batch = slice1D(y, i, this->_batch_size);
+            std::vector<double> y_batch = slice1D(y, i, this->_batch_size);
             // Forward pass
-            std::vector<double> y_pred = predict_proba(X_batch);
+            std::vector<double> y_pred = this->predict_proba(X_batch);
             double error = loss->forward(y_batch, y_pred);
             double reg_error = this->_lambda * reg->forward(this->weights);
             double tol_error = error + reg_error;
@@ -66,4 +78,30 @@ void SGDClassifier::fit(std::vector<std::vector<double>> X, std::vector<double> 
         }
     }
 
+};
+
+
+
+std::vector<double> SGDClassifier::predict(std::vector<std::vector<double>> &X){
+    std::vector<double> y_pred;
+    for (int i = 0; i < X.size(); i++){
+        double sum = 0;
+        for (int j = 0; j < X[i].size(); j++){
+            sum += X[i][j] * this->weights[j];
+        }
+        y_pred.push_back(sum > 0 ? 1 : 0);
+    }
+
+    if (this->_loss == "logistic"){
+        for (int i = 0; i < y_pred.size(); i++){
+            y_pred[i] = sigmoid(y_pred[i]) > 0 ? 1 : 0;
+        }
+    }
+    else if (this->_loss == "hinge"){
+        for (int i = 0; i < y_pred.size(); i++){
+            y_pred[i] = y_pred[i] > 0 ? 1 : -1;
+        }
+    }
+
+    
 };

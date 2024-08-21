@@ -20,7 +20,7 @@ int Kmeans::clustering(std::vector<Point>& points){
 
 }
 
-void Kmeans::fit(std::vector<std::vector<double>> X){
+void Kmeans::fit(std::vector<std::vector<double>>& X){
     std::cout << "Fitting the model" << std::endl;
 
     std::vector<Point> points;
@@ -74,7 +74,7 @@ void Kmeans::fit(std::vector<std::vector<double>> X){
 
 };
 
-std::vector<double> Kmeans::predict(std::vector<std::vector<double>> X){
+std::vector<double> Kmeans::predict(std::vector<std::vector<double>>& X){
     std::cout << "Predicting" << std::endl;
     std::vector<double> y_pred;
 

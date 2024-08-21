@@ -43,8 +43,8 @@ class DBSCAN : public UnsuperivedBasedModel {
         };
 
         // Gonna change it to pointer soon
-        void fit(std::vector<std::vector<double>> X) override;
-        void expand_cluster(Point *p, std::vector<Point*> neighbor, int cluster_id);
+        void fit(std::vector<std::vector<double>> &X) override;
+        void expand_cluster(Point *p, std::vector<Point*> &neighbor, int &cluster_id);
         std::vector<Point*> range_query(Point* p);
 
 };

@@ -8,7 +8,7 @@
 
 // #include <utility>
 
-void KNN::fit(std::vector<std::vector<double>> X, std::vector<double> y){
+void KNN::fit(std::vector<std::vector<double>> &X, std::vector<double> &y){
     std::cout << "Fitting the model" << std::endl;
 
 
@@ -54,7 +54,7 @@ double KNN::__predict_one(std::vector<double> x){
     return max_label;
 };
 
-std::vector<double> KNN::predict(std::vector<std::vector<double>> X){
+std::vector<double> KNN::predict(std::vector<std::vector<double>> &X){
     std::cout << "Predicting" << std::endl;
     std::vector<double> y_pred;
 
@@ -64,5 +64,10 @@ std::vector<double> KNN::predict(std::vector<std::vector<double>> X){
     }
 
     return y_pred;
+
+};
+
+std::vector<double> KNN::predict_proba(std::vector<std::vector<double>> &X){
+    return this->predict(X);
 
 };

@@ -27,7 +27,7 @@ class LogisticRegression : public SupervisedBasedModel {
             this->type = "classifier";
         };
 
-        void fit(std::vector<std::vector<double>> X, std::vector<double> y) override;
-        std::vector<double> predict(std::vector<std::vector<double>> X) override;
-        std::vector<double> predict_proba(std::vector<std::vector<double>> X) override;
+        void fit(std::vector<std::vector<double>> &X, std::vector<double> &y) override;
+        std::vector<double> predict(std::vector<std::vector<double>> &X) override;
+        std::vector<double> predict_proba(std::vector<std::vector<double>> &X) override;
 };

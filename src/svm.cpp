@@ -4,20 +4,20 @@
 #include <cmath>
 
 // Kernel functions
-double SVC::__linear_kernel(std::vector<double> x1, std::vector<double> x2){
+double SVC::__linear_kernel(std::vector<double>& x1, std::vector<double>& x2){
     return dot(x1, x2);
 }
 
-double SVC::__polynomial_kernel(std::vector<double> x1, std::vector<double> x2){
+double SVC::__polynomial_kernel(std::vector<double>& x1, std::vector<double>& x2){
     return pow(dot(x1, x2) + 1, this->_degree);
 }
 
-double SVC::__rbf_kernel(std::vector<double> x1, std::vector<double> x2){
+double SVC::__rbf_kernel(std::vector<double>& x1, std::vector<double>& x2){
     return exp(-this->_gamma * distance(x1, x2));
 }
 
 // Currently only supports 2 classes 1 and -1
-void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
+void SVC::fit(std::vector<std::vector<double>>& X, std::vector<double>& y){
 
 
     // Store the data
@@ -174,7 +174,7 @@ void SVC::fit(std::vector<std::vector<double>> X, std::vector<double> y){
 
 };
 
-std::vector<double> SVC::predict(std::vector<std::vector<double>> X){
+std::vector<double> SVC::predict(std::vector<std::vector<double>>& X){
     std::vector<double> y_pred;
     for (int i = 0; i < X.size(); i++){
         double sum = 0;
@@ -210,4 +210,8 @@ std::vector<double> SVC::predict(std::vector<std::vector<double>> X){
         }
     }
     return y_pred;
+}
+
+std::vector<double> SVC::predict_proba(std::vector<std::vector<double>>& X){
+    return this->predict(X);
 }

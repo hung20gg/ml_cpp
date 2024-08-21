@@ -154,7 +154,7 @@ void DecisionTree::__set_label(CategoricalNode* node){
     node->set_label(max_value);
 }
 
-void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y){
+void DecisionTree::fit(std::vector<std::vector<double>>& X, std::vector<double>& y){
     
     std::vector<int>root_index;
     for(int i = 0; i < X.size(); i++){
@@ -186,7 +186,7 @@ void DecisionTree::fit(std::vector<std::vector<double>> X, std::vector<double> y
 
 }
 
-std::vector<double> DecisionTree::predict(std::vector<std::vector<double>> X){
+std::vector<double> DecisionTree::predict(std::vector<std::vector<double>> &X){
     std::vector<double> y_pred;
     for(int i = 0; i < X.size(); i++){
         CategoricalNode* current_node = this->root;

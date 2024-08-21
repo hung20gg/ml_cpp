@@ -35,7 +35,7 @@ class Kmeans : public UnsuperivedBasedModel {
             this->type = "clustering";
         };
 
-        void fit(std::vector<std::vector<double>> X) override;
+        void fit(std::vector<std::vector<double>> &X) override;
         int clustering(std::vector<Point>&points); // Return the change in clusters
-        std::vector<double> predict(std::vector<std::vector<double>> X);
+        std::vector<double> predict(std::vector<std::vector<double>>& X);
 };

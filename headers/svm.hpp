@@ -22,9 +22,9 @@ class SVC : public SupervisedBasedModel{
         std::vector<double> _y;
 
 
-        double __linear_kernel(std::vector<double> x1, std::vector<double> x2);
-        double __polynomial_kernel(std::vector<double> x1, std::vector<double> x2);
-        double __rbf_kernel(std::vector<double> x1, std::vector<double> x2);
+        double __linear_kernel(std::vector<double>& x1, std::vector<double>& x2);
+        double __polynomial_kernel(std::vector<double>& x1, std::vector<double>& x2);
+        double __rbf_kernel(std::vector<double>& x1, std::vector<double>& x2);
 
 
     public:
@@ -45,8 +45,8 @@ class SVC : public SupervisedBasedModel{
             this->type = "classifier";
         };
 
-        void fit(std::vector<std::vector<double>> X, std::vector<double> y) override;
-        std::vector<double> predict(std::vector<std::vector<double>> X) override;
-        // std::vector<double> predict_proba(std::vector<std::vector<double>> X) override;
+        void fit(std::vector<std::vector<double>>& X, std::vector<double>& y) override;
+        std::vector<double> predict(std::vector<std::vector<double>>& X) override;
+        std::vector<double> predict_proba(std::vector<std::vector<double>>& X) override;
 
 };

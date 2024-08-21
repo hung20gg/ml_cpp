@@ -112,7 +112,7 @@ class DecisionTree : TreeBasedModel{
         };
         CategoricalNode* root;
 
-        void fit(std::vector<std::vector<double>> X, std::vector<double> y) override;
-        std::vector<double> predict(std::vector<std::vector<double>> X) override;
+        void fit(std::vector<std::vector<double>>& X, std::vector<double> &y) override;
+        std::vector<double> predict(std::vector<std::vector<double>> &X) override;
         
 };
